@@ -1,10 +1,11 @@
 {
   "name": "kad-spartacus",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "sybil and spartacus attack mitigation extensions for kad",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/**"
+    "test": "mocha test/**",
+    "coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --recursive"
   },
   "repository": {
     "type": "git",
@@ -26,5 +27,12 @@
   },
   "peerDependencies": {
     "kad": "^1.2.0-beta"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "istanbul": "^0.4.1",
+    "mocha": "^2.3.4",
+    "proxyquire": "^1.7.3",
+    "sinon": "^1.17.2"
   }
 }
