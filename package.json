@@ -1,0 +1,30 @@
+{
+  "name": "kad-spartacus",
+  "version": "1.0.0",
+  "description": "sybil and spartacus attack mitigation extensions for kad",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/**"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/gordonhall/kad-spartacus.git"
+  },
+  "keywords": [
+    "kad",
+    "sybil",
+    "spartacus"
+  ],
+  "author": "Gordon Hall <gordon@gordonwritescode.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://gitlab.com/gordonhall/kad-spartacus/issues"
+  },
+  "homepage": "https://gitlab.com/gordonhall/kad-spartacus#README",
+  "dependencies": {
+    "elliptic": "^6.0.2"
+  },
+  "peerDependencies": {
+    "kad": "^1.2.0-beta"
+  }
+}
