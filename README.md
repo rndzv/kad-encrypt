@@ -2,6 +2,7 @@ Kad Spartacus
 =============
 
 [![Build Status](https://img.shields.io/travis/gordonwritescode/kad-spartacus.svg?style=flat-square)](https://travis-ci.org/gordonwritescode/kad-spartacus)
+[![Coverage Status](https://img.shields.io/coveralls/gordonwritescode/kad-spartacus.svg?style=flat-square)](https://coveralls.io/r/gordonwritescode/kad-spartacus)
 
 Sybil and Spartacus attack mitigation extension for
 [Kad](https://github.com/gordonwritescode/kad).

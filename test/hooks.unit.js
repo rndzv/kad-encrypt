@@ -124,6 +124,25 @@ describe('Hooks', function() {
       });
     });
 
+    it('should reject the signature as expired', function(done) {
+      hooks.NONCE_EXPIRE = -10000;
+      var sign = hooks.sign(keypair1);
+      var verify = hooks.verify(keypair2);
+      var msg = kademlia.Message({
+        method: 'TEST',
+        params: {
+          contact: contact1
+        }
+      });
+      sign(msg, contact2, function() {
+        verify(msg, contact1, function(err) {
+          expect(err.message).to.equal('Message signature expired');
+          hooks.NONCE_EXPIRE = 10000;
+          done();
+        });
+      });
+    });
+
   });
 
 });

@@ -82,7 +82,7 @@ describe('KeyPair', function() {
     var kp1 = KeyPair();
     var kp2 = KeyPair();
 
-    it('should verify the valid signature', function() {
+    it('should verify the valid signature as strings', function() {
       var contract = 'test string';
       var signature = kp1.sign(contract);
       expect(kp2.verify(contract, kp1.getPublicKey(), signature)).to.equal(true);
@@ -92,6 +92,16 @@ describe('KeyPair', function() {
       var contract = 'test string';
       var signature = kp1.sign(contract);
       expect(kp2.verify(contract, kp2.getPublicKey(), signature)).to.equal(false);
+    });
+
+    it('should verify the valid signature as buffers', function() {
+      var contract = new Buffer('test string', 'utf8');
+      var signature = new Buffer(kp1.sign(contract), 'hex');
+      expect(kp2.verify(
+        contract,
+        new Buffer(kp1.getPublicKey(), 'hex'),
+        signature)
+      ).to.equal(true);
     });
 
   });
