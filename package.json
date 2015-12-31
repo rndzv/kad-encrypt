@@ -1,6 +1,6 @@
 {
   "name": "kad-spartacus",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "sybil and spartacus attack mitigation extensions for kad",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,7 @@
     "elliptic": "^6.0.2"
   },
   "peerDependencies": {
-    "kad": "^1.2.0-beta"
+    "kad": "^1.2.1"
   },
   "devDependencies": {
     "chai": "^3.4.1",

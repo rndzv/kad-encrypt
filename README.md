@@ -14,7 +14,7 @@ Usage
 Install with NPM.
 
 ```bash
-npm install kad@1.2.0-beta kad-spartacus
+npm install kad kad-spartacus
 ```
 
 Integrate with your Kad project.
