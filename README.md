@@ -1,8 +1,8 @@
 Kad Spartacus
 =============
 
-[![Build Status](https://img.shields.io/travis/gordonwritescode/kad-spartacus.svg?style=flat-square)](https://travis-ci.org/gordonwritescode/kad-spartacus)
-[![Coverage Status](https://img.shields.io/coveralls/gordonwritescode/kad-spartacus.svg?style=flat-square)](https://coveralls.io/r/gordonwritescode/kad-spartacus)
+[![Build Status](https://img.shields.io/travis/kadtools/kad-spartacus.svg?style=flat-square)](https://travis-ci.org/kadtools/kad-spartacus)
+[![Coverage Status](https://img.shields.io/coveralls/kadtools/kad-spartacus.svg?style=flat-square)](https://coveralls.io/r/kadtools/kad-spartacus)
 [![NPM](https://img.shields.io/npm/v/kad-spartacus.svg?style=flat-square)](https://www.npmjs.com/package/kad-spartacus)
 
 Sybil and Spartacus attack mitigation extension for
