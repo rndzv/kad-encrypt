@@ -37,7 +37,7 @@ describe('Hooks', function() {
         }
       });
       sign(msg, contact2, function() {
-        expect(typeof msg.params.__signature).to.equal('string');
+        expect(msg.params.__signature).to.be.instanceOf(Buffer);
         expect(typeof msg.params.__nonce).to.equal('number');
         done();
       });
@@ -52,7 +52,7 @@ describe('Hooks', function() {
         id: kademlia.utils.createID('message')
       });
       sign(msg, contact2, function() {
-        expect(typeof msg.result.__signature).to.equal('string');
+        expect(msg.result.__signature).to.be.instanceOf(Buffer);
         expect(typeof msg.result.__nonce).to.equal('number');
         done();
       });

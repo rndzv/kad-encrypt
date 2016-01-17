@@ -19,11 +19,11 @@ describe('ContactDecorator', function() {
 
     it('should add the pubkey to the contact', function() {
       var Contact = ContactDecorator(kademlia.contacts.AddressPortContact);
-      expect(typeof Contact({
+      expect(Contact({
         address: '127.0.0.1',
         port: 1337,
         pubkey: '028ac783dab2f134946ed5c6b85eadc48ce745721a01eb071d6faaadcdea7b32d5'
-      }).pubkey).to.equal('string');
+      }).pubkey).to.be.instanceOf(Buffer);
     });
 
     it('should use the correct nodeID', function() {
