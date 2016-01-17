@@ -1,6 +1,6 @@
 {
   "name": "kad-spartacus",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "sybil and spartacus attack mitigation extensions for kad",
   "main": "index.js",
   "scripts": {
@@ -23,9 +23,7 @@
   },
   "homepage": "https://gitlab.com/gordonhall/kad-spartacus#README",
   "dependencies": {
-    "elliptic": "^6.0.2"
-  },
-  "dependencies": {
+    "elliptic": "^6.0.2",
     "kad": "^1.3.0"
   },
   "devDependencies": {
