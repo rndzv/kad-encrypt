@@ -1,6 +1,6 @@
 {
   "name": "kad-spartacus",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "sybil and spartacus attack mitigation extensions for kad",
   "main": "index.js",
   "scripts": {

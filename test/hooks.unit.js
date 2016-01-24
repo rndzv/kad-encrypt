@@ -36,7 +36,7 @@ describe('Hooks', function() {
           contact: contact1
         }
       });
-      sign(msg, contact2, function() {
+      sign(msg, function() {
         expect(msg.params.__signature).to.be.instanceOf(Buffer);
         expect(typeof msg.params.__nonce).to.equal('number');
         done();
@@ -51,7 +51,7 @@ describe('Hooks', function() {
         },
         id: kademlia.utils.createID('message')
       });
-      sign(msg, contact2, function() {
+      sign(msg, function() {
         expect(msg.result.__signature).to.be.instanceOf(Buffer);
         expect(typeof msg.result.__nonce).to.equal('number');
         done();
@@ -71,7 +71,7 @@ describe('Hooks', function() {
           contact: contact1
         }
       });
-      sign(msg, contact2, function() {
+      sign(msg, function() {
         verify(msg, contact1, done);
       });
     });
@@ -85,7 +85,7 @@ describe('Hooks', function() {
         },
         id: kademlia.utils.createID('test')
       });
-      sign(msg, contact1, function() {
+      sign(msg, function() {
         verify(msg, contact2, done);
       });
     });
@@ -99,7 +99,7 @@ describe('Hooks', function() {
           contact: contact1
         }
       });
-      sign(msg, contact2, function() {
+      sign(msg, function() {
         verify(msg, contact2, function(err) {
           expect(err).to.be.instanceOf(Error);
           done();
@@ -116,7 +116,7 @@ describe('Hooks', function() {
         },
         id: kademlia.utils.createID('test')
       });
-      sign(msg, contact1, function() {
+      sign(msg, function() {
         verify(msg, contact1, function(err) {
           expect(err).to.be.instanceOf(Error);
           done();
@@ -134,7 +134,7 @@ describe('Hooks', function() {
           contact: contact1
         }
       });
-      sign(msg, contact2, function() {
+      sign(msg, function() {
         verify(msg, contact1, function(err) {
           expect(err.message).to.equal('Message signature expired');
           hooks.NONCE_EXPIRE = 10000;
