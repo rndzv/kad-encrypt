@@ -1,12 +1,10 @@
-Kad Spartacus
+Kad Encrypt
 =============
 
-[![Build Status](https://img.shields.io/travis/kadtools/kad-spartacus.svg?style=flat-square)](https://travis-ci.org/kadtools/kad-spartacus)
-[![Coverage Status](https://img.shields.io/coveralls/kadtools/kad-spartacus.svg?style=flat-square)](https://coveralls.io/r/kadtools/kad-spartacus)
-[![NPM](https://img.shields.io/npm/v/kad-spartacus.svg?style=flat-square)](https://www.npmjs.com/package/kad-spartacus)
+Encryption for
+[Kad](https://github.com/kadtools/kad). Based on [Kad Spartacus](https://github.com/kadtools/kad-spartacus), Sybil and Spartacus attack mitigation extension by [Gordon Hall](https://github.com/bookchin).
 
-Sybil and Spartacus attack mitigation extension for
-[Kad](https://github.com/gordonwritescode/kad).
+Following README not yet updated.
 
 Usage
 -----
