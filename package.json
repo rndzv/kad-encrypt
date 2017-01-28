@@ -1,7 +1,7 @@
 {
-  "name": "kad-spartacus",
-  "version": "0.0.6",
-  "description": "sybil and spartacus attack mitigation extensions for kad",
+  "name": "kad-encrypt",
+  "version": "0.1.0",
+  "description": "packet encryption for kad",
   "main": "index.js",
   "scripts": {
     "test": "mocha test/**",
@@ -9,22 +9,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com/gordonhall/kad-spartacus.git"
+    "url": "git+ssh://github.com/rndzv/kad-encrypt.git"
   },
   "keywords": [
     "kad",
     "sybil",
     "spartacus"
   ],
-  "author": "Gordon Hall <gordon@gordonwritescode.com>",
+  "author": "Abe Fetterman <abe@rndzv.com>",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://gitlab.com/gordonhall/kad-spartacus/issues"
+    "url": "https://github.com/rndzv/kad-encrypt/issues"
   },
-  "homepage": "https://gitlab.com/gordonhall/kad-spartacus#README",
+  "homepage": "https://github.com/rndzv/kad-encrypt#README",
   "dependencies": {
-    "elliptic": "^6.0.2",
-    "kad": "^1.3.0"
+    "elliptic": "^6.3.2",
+    "kad": "^1.6.4"
   },
   "devDependencies": {
     "chai": "^3.4.1",

@@ -22,7 +22,7 @@ describe('KeyPair', function() {
       expect(
         KeyPair(
           '3d9828d83318d5b1c8a92b50967bd956155d22197ae9d79ff7e4f0c3209db617'
-        )._keypair.getPrivate().toString('hex')
+        )._keypair.getPrivateKey('hex')
       ).to.equal(
         '3d9828d83318d5b1c8a92b50967bd956155d22197ae9d79ff7e4f0c3209db617'
       );
@@ -30,7 +30,7 @@ describe('KeyPair', function() {
 
     it('should generate a new key pair', function() {
       var kp = KeyPair();
-      expect(kp._keypair.getPrivate.bind(kp._keypair)).to.not.throw(Error);
+      expect(kp._keypair.getPrivateKey.bind(kp._keypair)).to.not.throw(Error);
     });
 
   });
@@ -77,7 +77,7 @@ describe('KeyPair', function() {
 
   });
 
-  describe('#verify/#sign', function() {
+  describe('#encrypt/#decrypt', function() {
 
     var kp1 = KeyPair();
     var kp2 = KeyPair();
