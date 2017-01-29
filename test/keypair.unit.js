@@ -5,6 +5,7 @@ var proxyquire = require('proxyquire');
 var expect = require('chai').expect;
 var kademlia = require('kad');
 var KeyPair = require('../lib/keypair');
+var crypto = require('crypto');
 
 describe('KeyPair', function() {
 
@@ -79,29 +80,24 @@ describe('KeyPair', function() {
 
   describe('#encrypt/#decrypt', function() {
 
-    var kp1 = KeyPair();
-    var kp2 = KeyPair();
+    var kp1 = KeyPair('e8ce9b86f969c75e78ff333048a588b80783a8fc8c88f77dc62354af252df07e');
+    var kp2 = KeyPair('eb1ccbc91478dac017912177d50c906d3c54812870151042746b3b6c60e0de4b');
 
-    it('should verify the valid signature as strings', function() {
-      var contract = 'test string';
-      var signature = kp1.sign(contract);
-      expect(kp2.verify(contract, kp1.getPublicKey(), signature)).to.equal(true);
+    const iv = Buffer.from('6f590b5da844035a88cf116cb020114e','hex');
+    const message = Buffer.from('the rain in spain falls mainly in the plain','ascii');
+    const ciphertext = Buffer.from('030e115eb334fb6bd081e2e860ed6189f1b67fffd0fd8ff18e5d98e5ad3b5f04cdfd314ccf8933e2293a064628c4b59fbca028a3049123bbe0205ff6523a4653bb4f33700de4fa4899f716c59bd95029cf1e946a966c7738a11444db','hex')
+
+    it('should encrypt a buffer with hex pubkey', function() {
+      expect(kp1.encrypt(kp2.getPublicKey(), iv, message).toString('hex')).to.equal(ciphertext.toString('hex'));
     });
 
-    it('should reject the invalid signature', function() {
-      var contract = 'test string';
-      var signature = kp1.sign(contract);
-      expect(kp2.verify(contract, kp2.getPublicKey(), signature)).to.equal(false);
+    it('should encrypt a buffer with buffer pubkey', function() {
+      const pubkey = Buffer.from(kp2.getPublicKey(),'hex')
+      expect(kp1.encrypt(pubkey, iv, message).toString('hex')).to.equal(ciphertext.toString('hex'));
     });
 
-    it('should verify the valid signature as buffers', function() {
-      var contract = new Buffer('test string', 'utf8');
-      var signature = new Buffer(kp1.sign(contract), 'hex');
-      expect(kp2.verify(
-        contract,
-        new Buffer(kp1.getPublicKey(), 'hex'),
-        signature)
-      ).to.equal(true);
+    it('should decrypt the buffer', function() {
+      expect(kp2.decrypt(iv, ciphertext).toString('hex')).to.equal(message.toString('hex'));
     });
 
   });
