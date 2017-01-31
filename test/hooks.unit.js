@@ -10,139 +10,164 @@ var hooks = require('../lib/hooks');
 
 describe('Hooks', function() {
 
-  var SpartacusContact = ContactDecorator(kademlia.contacts.AddressPortContact);
+  var CryptoContact = ContactDecorator(kademlia.contacts.AddressPortContact);
 
   var keypair1 = KeyPair();
-  var contact1 = SpartacusContact({
+  var contact1 = CryptoContact({
     address: '127.0.0.1',
     port: 1337,
-    pubkey: keypair1.getPublicKey()
+    pubkey: keypair1.getPublicKey(),
+    nodeID: keypair1.getNodeID()
   });
 
   var keypair2 = KeyPair();
-  var contact2 = SpartacusContact({
+  var contact2 = CryptoContact({
     address: '127.0.0.1',
     port: 1338,
-    pubkey: keypair2.getPublicKey()
-  });
-  /*
-  describe('#sign', function() {
-
-    it('should sign the message id and nonce for the request', function(done) {
-      var sign = hooks.sign(keypair1);
-      var msg = kademlia.Message({
-        method: 'TEST',
-        params: {
-          contact: contact1
-        }
-      });
-      sign(msg, function() {
-        expect(msg.params.__signature).to.be.instanceOf(Buffer);
-        expect(typeof msg.params.__nonce).to.equal('number');
-        done();
-      });
-    });
-
-    it('should sign the message id and nonce for the response', function(done) {
-      var sign = hooks.sign(keypair1);
-      var msg = kademlia.Message({
-        result: {
-          contact: contact1
-        },
-        id: kademlia.utils.createID('message')
-      });
-      sign(msg, function() {
-        expect(msg.result.__signature).to.be.instanceOf(Buffer);
-        expect(typeof msg.result.__nonce).to.equal('number');
-        done();
-      });
-    });
-
+    pubkey: keypair2.getPublicKey(),
+    nodeID: keypair2.getNodeID()
   });
 
-  describe('#verify', function() {
+  var badContact = CryptoContact({
+    address: '127.0.0.1',
+    port: 1338,
+    pubkey: keypair2.getPublicKey(),
+    nodeID: keypair1.getNodeID()
+  });
 
-    it('should verify request signature', function(done) {
-      var sign = hooks.sign(keypair1);
-      var verify = hooks.verify(keypair2);
-      var msg = kademlia.Message({
+  describe('#encrypt', function() {
+
+    it('should encrypt a valid message', function(done) {
+      var encrypt = hooks.encrypt(keypair1);
+      const plaintext = Buffer.from(JSON.stringify(kademlia.Message({
         method: 'TEST',
         params: {
-          contact: contact1
-        }
-      });
-      sign(msg, function() {
-        verify(msg, contact1, done);
-      });
-    });
-
-    it('should verify the response signature', function(done) {
-      var sign = hooks.sign(keypair2);
-      var verify = hooks.verify(keypair1);
-      var msg = kademlia.Message({
-        result: {
-          contact: contact1
-        },
-        id: kademlia.utils.createID('test')
-      });
-      sign(msg, function() {
-        verify(msg, contact2, done);
-      });
-    });
-
-    it('should reject request signature', function(done) {
-      var sign = hooks.sign(keypair1);
-      var verify = hooks.verify(keypair2);
-      var msg = kademlia.Message({
-        method: 'TEST',
-        params: {
-          contact: contact1
-        }
-      });
-      sign(msg, function() {
-        verify(msg, contact2, function(err) {
-          expect(err).to.be.instanceOf(Error);
-          done();
-        });
-      });
-    });
-
-    it('should reject the response signature', function(done) {
-      var sign = hooks.sign(keypair2);
-      var verify = hooks.verify(keypair1);
-      var msg = kademlia.Message({
-        result: {
           contact: contact2
-        },
-        id: kademlia.utils.createID('test')
+        }
+      })));
+      const ciphertext = encrypt(plaintext, contact2, function(err) {
+        expect(err).to.be.undefined;
       });
-      sign(msg, function() {
-        verify(msg, contact1, function(err) {
-          expect(err).to.be.instanceOf(Error);
-          done();
-        });
-      });
+      expect(ciphertext.length > plaintext.length).to.be.true
+      done();
     });
 
-    it('should reject the signature as expired', function(done) {
-      hooks.NONCE_EXPIRE = -10000;
-      var sign = hooks.sign(keypair1);
-      var verify = hooks.verify(keypair2);
-      var msg = kademlia.Message({
+    it('should encrypt a valid message with no keypair', function(done) {
+      var encrypt = hooks.encrypt();
+      const plaintext = Buffer.from(JSON.stringify(kademlia.Message({
         method: 'TEST',
         params: {
-          contact: contact1
+          contact: contact2
         }
+      })));
+      const ciphertext = encrypt(plaintext, contact2, function(err) {
+        expect(err).to.be.undefined;
       });
-      sign(msg, function() {
-        verify(msg, contact1, function(err) {
-          expect(err.message).to.equal('Message signature expired');
-          hooks.NONCE_EXPIRE = 10000;
-          done();
-        });
-      });
+      expect(ciphertext.length > plaintext.length).to.be.true
+      done();
     });
 
-  });*/
+    it('should throw an error on invalid contact', function(done) {
+      var encrypt = hooks.encrypt(keypair1);
+      const plaintext = Buffer.from(JSON.stringify(kademlia.Message({
+        method: 'TEST',
+        params: {
+          contact: badContact
+        }
+      })));
+      const ciphertext = encrypt(plaintext, badContact, function(err) {
+        return err;
+      });
+      expect(ciphertext).to.be.instanceOf(Error);
+
+      done();
+    });
+
+  });
+
+  describe('#decrypt', function() {
+
+    it('should decrypt data from a specific key', function(done) {
+      var encrypt = hooks.encrypt(keypair1);
+      var decrypt = hooks.decrypt(keypair2);
+      const originalPlaintext = Buffer.from(JSON.stringify(kademlia.Message({
+        method: 'TEST',
+        params: {
+          contact: contact2
+        }
+      })));
+      const ciphertext = encrypt(originalPlaintext, contact2, function(err) {
+        expect(err).to.be.undefined;
+      });
+      const newPlaintext = decrypt(ciphertext, function(err) {
+        expect(err).to.be.undefined;
+      })
+      expect(newPlaintext.toString('hex')).to.equal(originalPlaintext.toString('hex'))
+      done();
+    });
+
+    it('should decrypt data from an ephemeral key', function(done) {
+      var encrypt = hooks.encrypt();
+      var decrypt = hooks.decrypt(keypair2);
+      const originalPlaintext = Buffer.from(JSON.stringify(kademlia.Message({
+        method: 'TEST',
+        params: {
+          contact: contact2
+        }
+      })));
+      const ciphertext = encrypt(originalPlaintext, contact2, function(err) {
+        expect(err).to.be.undefined;
+      });
+      const newPlaintext = decrypt(ciphertext, function(err) {
+        expect(err).to.be.undefined;
+      })
+      expect(newPlaintext.toString('hex')).to.equal(originalPlaintext.toString('hex'))
+      done();
+    });
+
+    it('should reject the expired date', function(done) {
+      hooks.NONCE_EXPIRE = -10000;
+      var encrypt = hooks.encrypt(keypair1);
+      var decrypt = hooks.decrypt(keypair2);
+      const originalPlaintext = Buffer.from(JSON.stringify(kademlia.Message({
+        method: 'TEST',
+        params: {
+          contact: contact2
+        }
+      })));
+      const ciphertext = encrypt(originalPlaintext, contact2, function(err) {
+        expect(err).to.be.undefined;
+      });
+      const newPlaintext = decrypt(ciphertext, function(err) {
+        return err;
+      })
+      expect(newPlaintext).to.be.instanceOf(Error);
+      hooks.NONCE_EXPIRE = 10000;
+      done();
+    });
+
+
+    it('should reject tampered data', function(done) {
+      var encrypt = hooks.encrypt(keypair1);
+      var decrypt = hooks.decrypt(keypair2);
+      const originalPlaintext = Buffer.from(JSON.stringify(kademlia.Message({
+        method: 'TEST',
+        params: {
+          contact: contact2
+        }
+      })));
+      var ciphertext = encrypt(originalPlaintext, contact2, function(err) {
+        return err
+      });
+      Buffer.from('data corruption').copy(ciphertext,64)
+
+      const newPlaintext = decrypt(ciphertext, function(err) {
+        return err;
+      })
+      expect(newPlaintext).to.be.instanceOf(Error);
+      done();
+    });
+
+  });
 
 });

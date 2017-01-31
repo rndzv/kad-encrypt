@@ -87,6 +87,7 @@ describe('KeyPair', function() {
     const message = Buffer.from('the rain in spain falls mainly in the plain','ascii');
     const ciphertext = Buffer.from('030e115eb334fb6bd081e2e860ed6189f1b67fffd0fd8ff18e5d98e5ad3b5f04cdfd314ccf8933e2293a064628c4b59fbca028a3049123bbe0205ff6523a4653bb4f33700de4fa4899f716c59bd95029cf1e946a966c7738a11444db','hex')
 
+
     it('should encrypt a buffer with hex pubkey', function() {
       expect(kp1.encrypt(kp2.getPublicKey(), iv, message).toString('hex')).to.equal(ciphertext.toString('hex'));
     });
