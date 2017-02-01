@@ -2,7 +2,7 @@
 
 var expect = require('chai').expect;
 var kademlia = require('kad');
-var ContactDecorator = require('../lib/contact');
+var {ContactDecorator} = require('../lib/contact');
 
 describe('ContactDecorator', function() {
 

@@ -5,12 +5,10 @@ var proxyquire = require('proxyquire');
 var expect = require('chai').expect;
 var kademlia = require('kad');
 var KeyPair = require('../lib/keypair');
-var ContactDecorator = require('../lib/contact');
+var {CryptoContact} = require('../lib/contact');
 var hooks = require('../lib/hooks');
 
 describe('Hooks', function() {
-
-  var CryptoContact = ContactDecorator(kademlia.contacts.AddressPortContact);
 
   var keypair1 = KeyPair();
   var contact1 = CryptoContact({
@@ -28,11 +26,30 @@ describe('Hooks', function() {
     nodeID: keypair2.getNodeID()
   });
 
-  var badContact = CryptoContact({
-    address: '127.0.0.1',
-    port: 1338,
-    pubkey: keypair2.getPublicKey(),
-    nodeID: keypair1.getNodeID()
+  describe('#verify', function() {
+
+    it('should accept a valid contact', function(done) {
+      const plaintext = Buffer.from('abcd');
+      hooks.verify(plaintext, contact1, function(err) {
+        expect(err).to.be.undefined;
+        done()
+      });
+    });
+
+    it('should throw an error on invalid pubkey', function(done) {
+      var badContact = CryptoContact({
+        address: '127.0.0.1',
+        port: 1338,
+        pubkey: 'whaaaaat',
+        nodeID: keypair1.getNodeID()
+      });
+      const plaintext = Buffer.from('abcd');
+      hooks.verify(plaintext, badContact, function(err) {
+        expect(err).to.be.instanceOf(Error);
+        done()
+      });
+    });
+
   });
 
   describe('#encrypt', function() {
@@ -67,8 +84,14 @@ describe('Hooks', function() {
       done();
     });
 
-    it('should throw an error on invalid contact', function(done) {
+    it('should throw an error on invalid pubkey', function(done) {
       var encrypt = hooks.encrypt(keypair1);
+      var badContact = CryptoContact({
+        address: '127.0.0.1',
+        port: 1338,
+        pubkey: 'whaaaaat',
+        nodeID: keypair1.getNodeID()
+      });
       const plaintext = Buffer.from(JSON.stringify(kademlia.Message({
         method: 'TEST',
         params: {
