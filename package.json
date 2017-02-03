@@ -1,6 +1,6 @@
 {
   "name": "kad-encrypt",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "packet encryption for kad",
   "main": "index.js",
   "scripts": {
