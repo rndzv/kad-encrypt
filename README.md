@@ -3,8 +3,7 @@ Kad Encrypt
 
 Packet encryption for
 [Kad](https://github.com/kadtools/kad). Currently only for UDP. Compatible with
-[Kad Spartacus](https://github.com/kadtools/kad-spartacus). Currently node 6.x
-only.
+[Kad Spartacus](https://github.com/kadtools/kad-spartacus). Node 6.x only.
 
 Usage
 -----
@@ -34,22 +33,22 @@ var transport = encrypt.UDP(Contact({
   privateKey: privateKey
 }));
 
-//If you'd like to also prevent Sybil/Spartacus attacks:
+//If you'd like to tie the pubkey to nodeid for attack mitigation:
 transport.before('send', encrypt.hooks.verify);
 ```
 
 About: Verification / Attack Mitigation
 --------------
 
-Like [Kad Spartacus](https://github.com/kadtools/kad-spartacus), Kad Encrypt  
+Like [Kad Spartacus](https://github.com/kadtools/kad-spartacus), Kad Encrypt
 introduces cryptographic identities using EC. In this case, nodes prove they own
 their nodeID by successfully decrypting messages with their private EC key and
 including their public EC in the message. The `nodeID` is derived from the
 public key, therefore any node's claimed `nodeID` can be verified by checking it
 against the included public key.
 
-Note that Spartacus imposes its requirement on /incoming/ messages,
-while Encrypt does so with /outgoing/ messages. Either one should be sufficient,
+Note that Spartacus imposes its requirement on *incoming* messages,
+while Encrypt does so with *outgoing* messages. Either one should be sufficient,
 since with Encrypt any node lying about their public key (and thus nodeID
 ownership) will not be able to decrypt any response. Using Kad Spartacus
 as well would provide additional security for incoming messages (the identities
