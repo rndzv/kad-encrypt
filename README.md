@@ -1,6 +1,8 @@
 Kad Encrypt
 =============
 
+[![NPM](https://img.shields.io/npm/v/kad-encrypt.svg?style=flat-square)](https://www.npmjs.com/package/kad-encrypt)
+
 Packet encryption for
 [Kad](https://github.com/kadtools/kad). Currently only for UDP. Compatible with
 [Kad Spartacus](https://github.com/kadtools/kad-spartacus). Node 6.x only.
