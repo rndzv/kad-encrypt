@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/rndzv/kad-encrypt#README",
   "dependencies": {
-    "elliptic": "^6.3.2",
     "kad": "^1.6.4"
   },
   "devDependencies": {

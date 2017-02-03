@@ -6,6 +6,7 @@ var RPC = require('../lib/udp');
 var kad = require('kad')
 var Message = kad.Message;
 var KeyPair = require('../lib/keypair');
+var hooks = require('../lib/hooks')
 
 var {CryptoContact} = require('../lib/contact')
 
@@ -246,6 +247,47 @@ describe('Transports/UDP', function() {
       _send.restore();
       expect(_warn.called).to.equal(true);
       expect(_send.called).to.equal(true);
+    });
+
+  });
+
+  describe('#_receive', function() {
+
+    it('should error if time invalid', function(done) {
+      var contact = getPortContact(0);
+      var rpc = new RPC(contact);
+      rpc.on('error', function(err) {
+        expect(err).to.not.equal(null);
+        expect(err).to.not.equal(undefined);
+        done();
+      });
+      var data = Buffer.alloc(256,55);
+      rpc._receive(data);
+    });
+
+    it('should error if packet invalid', function(done) {
+      var contact = getPortContact(0);
+      var rpc = new RPC(contact);
+      rpc.on('error', function(err) {
+        expect(err).to.not.equal(null);
+        expect(err).to.not.equal(undefined);
+        done();
+      });
+      var data = Buffer.alloc(256,55);
+      data.writeUInt32BE(Math.round(Date.now()/1000),0)
+      rpc._receive(data);
+    });
+
+    it('should call receive if packet valid', function() {
+      var contact = getPortContact(0);
+      var encrypt = hooks.encrypt()
+      var rpc = new RPC(contact);
+      var _receive = sinon.stub(rpc, 'receive');
+      var plaintext = Buffer.from('message we want to encrypt')
+      var data = encrypt(plaintext,contact, () => {});
+      rpc._receive(data);
+      _receive.restore();
+      expect(_receive.called).to.equal(true);
     });
 
   });
