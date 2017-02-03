@@ -3,7 +3,8 @@ Kad Encrypt
 
 Packet encryption for
 [Kad](https://github.com/kadtools/kad). Currently only for UDP. Compatible with
-[Kad Spartacus](https://github.com/kadtools/kad-spartacus).
+[Kad Spartacus](https://github.com/kadtools/kad-spartacus). Currently node 6.x
+only.
 
 Usage
 -----
@@ -17,11 +18,13 @@ npm install kad kad-encrypt
 Integrate with your Kad project.
 
 ```js
-var kademlia = require('kad');
+var kad = require('kad');
 var encrypt = require('kad-encrypt');
 
 // Setup your Contact
-var Contact = encrypt.ContactDecorator(kademlia.contacts.AddressPortContact);
+var Contact = encrypt.ContactDecorator(
+  kad.contacts.AddressPortContact
+);
 
 // Load up the transport from encrypt.
 // if privateKey is not included a new identity will be created
@@ -32,7 +35,7 @@ var transport = encrypt.UDP(Contact({
 }));
 
 //If you'd like to also prevent Sybil/Spartacus attacks:
-transport.before('send', encrypt.verify);
+transport.before('send', encrypt.hooks.verify);
 ```
 
 About: Verification / Attack Mitigation

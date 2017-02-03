@@ -1,6 +1,6 @@
 {
   "name": "kad-encrypt",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "packet encryption for kad",
   "main": "index.js",
   "scripts": {
@@ -22,6 +22,9 @@
     "url": "https://github.com/rndzv/kad-encrypt/issues"
   },
   "homepage": "https://github.com/rndzv/kad-encrypt#README",
+  "engines": {
+    "node": "6.x.x"
+  },
   "dependencies": {
     "kad": "^1.6.4"
   },

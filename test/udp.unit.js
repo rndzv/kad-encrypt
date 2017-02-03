@@ -8,7 +8,7 @@ var Message = kad.Message;
 var KeyPair = require('../lib/keypair');
 var hooks = require('../lib/hooks')
 
-var {CryptoContact} = require('../lib/contact')
+var CryptoContact = require('../lib/contact').CryptoContact
 
 function getPortContact(port) {
   var keypair = new KeyPair()

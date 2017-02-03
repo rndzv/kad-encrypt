@@ -23,15 +23,10 @@ describe('KeyPair', function() {
       expect(
         KeyPair(
           '3d9828d83318d5b1c8a92b50967bd956155d22197ae9d79ff7e4f0c3209db617'
-        )._keypair.getPrivateKey('hex')
+        ).getPrivateKey()
       ).to.equal(
         '3d9828d83318d5b1c8a92b50967bd956155d22197ae9d79ff7e4f0c3209db617'
       );
-    });
-
-    it('should generate a new key pair', function() {
-      var kp = KeyPair();
-      expect(kp._keypair.getPrivateKey.bind(kp._keypair)).to.not.throw(Error);
     });
 
   });

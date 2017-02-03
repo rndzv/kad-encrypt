@@ -5,7 +5,7 @@ var proxyquire = require('proxyquire');
 var expect = require('chai').expect;
 var kademlia = require('kad');
 var KeyPair = require('../lib/keypair');
-var {CryptoContact} = require('../lib/contact');
+var CryptoContact = require('../lib/contact').CryptoContact;
 var hooks = require('../lib/hooks');
 
 describe('Hooks', function() {
