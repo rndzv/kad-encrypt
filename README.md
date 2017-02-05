@@ -29,7 +29,7 @@ var Contact = encrypt.ContactDecorator(
 
 // Load up the transport from encrypt.
 // if privateKey is not included a new identity will be created
-var transport = encrypt.UDP(Contact({
+var transport = encrypt.transports.UDP(Contact({
   address: '127.0.0.1',
   port: 1337,
   privateKey: privateKey

@@ -2,13 +2,13 @@
 
 var expect = require('chai').expect;
 var sinon = require('sinon');
-var RPC = require('../lib/udp');
+var RPC = require('../../lib/transports/udp');
 var kad = require('kad')
 var Message = kad.Message;
-var KeyPair = require('../lib/keypair');
-var hooks = require('../lib/hooks')
+var KeyPair = require('../../lib/keypair');
+var hooks = require('../../lib/hooks')
 
-var CryptoContact = require('../lib/contact').CryptoContact
+var CryptoContact = require('../../lib/contact').CryptoContact
 
 function getPortContact(port) {
   var keypair = new KeyPair()
